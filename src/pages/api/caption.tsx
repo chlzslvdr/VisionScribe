@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export const config = {
   api: {
@@ -51,8 +51,13 @@ export default async function handler(
     res
       .status(200)
       .json({ caption: data[0]?.generated_text || "No caption generated" });
-  } catch (error: any) {
-    console.error("❌ Server Error:", error.message);
-    res.status(500).json({ error: "Error processing image" });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("❌ Server Error:", error.message);
+      res.status(500).json({ error: error.message });
+    } else {
+      console.error("❌ Unknown Server Error");
+      res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 }

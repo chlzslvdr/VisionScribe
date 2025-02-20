@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 import { ClipboardIcon, CheckIcon } from "@heroicons/react/24/outline";
 
 export default function ImageUploader() {
@@ -53,8 +54,12 @@ export default function ImageUploader() {
 
         const data = await response.json();
         setCaption(data.caption || "No caption generated.");
-      } catch (error) {
-        setError("Something went wrong. Try again.");
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("Something went wrong. Try again.");
+        }
       } finally {
         setLoading(false);
       }
@@ -85,10 +90,12 @@ export default function ImageUploader() {
 
       {image && (
         <div className="flex flex-col items-center gap-3">
-          <img
+          <Image
             src={URL.createObjectURL(image)}
             alt="Uploaded preview"
-            className="w-64 h-auto rounded-lg shadow-md"
+            width={300}
+            height={300}
+            className="rounded-lg shadow-md"
           />
           <button
             onClick={generateCaption}
