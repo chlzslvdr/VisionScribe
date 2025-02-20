@@ -11,7 +11,7 @@ VisionScribe is an AI-powered tool that instantly generates accurate and meaning
 ## Project Features
 
 - Upload Image – Drag & drop or file input
-- AI Analysis – OpenAI API generates a caption
+- AI Analysis – Hugging Face API generates a caption
 - Show Result – Display image + AI-generated caption
 - Copy or Share Caption
 
